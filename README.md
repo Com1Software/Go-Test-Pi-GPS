@@ -3,9 +3,7 @@
 
 [Test Pi Servo ](https://github.com/Com1Software/Test-Pi-Servo)
 
-DIYmall VK-172 VK 172 Gmouse G-Mouse USB GPS Dongle Glonass Support Windows 10/8/7/vista/XP/Raspberry PI Vehicle Aviation Tracker
-
-[Amazon - $12.98](https://www.amazon.com/dp/B00NWEEWW8?psc=1&ref=ppx_yo2ov_dt_b_product_details)
+DIYmall VK-172 VK 172 Gmouse G-Mouse USB GPS Dongle Glonass Support Windows 10/8/7/vista/XP/Raspberry PI Vehicle Aviation Tracker [Amazon - $12.98](https://www.amazon.com/dp/B00NWEEWW8?psc=1&ref=ppx_yo2ov_dt_b_product_details)
 
 [Go bug.st Serial](https://github.com/bugst/go-serial)
 
