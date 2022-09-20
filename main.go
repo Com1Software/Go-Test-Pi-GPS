@@ -27,7 +27,7 @@ func main() {
 
 	// Open the first serial port detected at 9600bps N81
 	mode := &serial.Mode{
-		BaudRate: 9600,
+		BaudRate: 4800,
 		Parity:   serial.NoParity,
 		DataBits: 8,
 		StopBits: serial.OneStopBit,
