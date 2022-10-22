@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"strings"
 
 	"go.bug.st/serial"
@@ -10,7 +11,7 @@ import (
 
 func main() {
 	fmt.Println("hello world")
-	line:=""
+	line := ""
 	// Retrieve the port list
 	ports, err := serial.GetPortsList()
 	if err != nil {
@@ -58,66 +59,72 @@ func main() {
 			if strings.Contains(string(buff[:n]), "\n") {
 				break
 			}
-		
+
+		}
+		id, latitude, longitude, ns, ew, gpsspeed, degree := getGPSPosition(line)
+		latdif := 0
+		londif := 0
+		maxlata := 0
+		minlata := 999999999
+		maxlona := 0
+		minlona := 999999999
+		maxlatb := 0
+		minlatb := 999999999
+		maxlonb := 0
+		minlonb := 999999999
+		if len(id) > 0 {
+			if len(latitude) > 0 {
+				l := strings.Split(latitude, ".")
+				la, _ := strconv.Atoi(l[0])
+				lb, _ := strconv.Atoi(l[1])
+				if la > maxlata {
+					maxlata = la
 				}
-	id, latitude, longitude, ns, ew, gpsspeed, degree := getGPSPosition(line)
-				latdif := 0
-				londif := 0
-				if len(id) > 0 {
-					if len(latitude) > 0 {
-						l := strings.Split(latitude, ".")
-						la, _ := strconv.Atoi(l[0])
-						lb, _ := strconv.Atoi(l[1])
-						if la > maxlata {
-							maxlata = la
-						}
-						if lb > maxlatb {
-							maxlatb = lb
-						}
-						if la < minlata {
-							minlata = la
-						}
-						if lb < minlatb {
-							minlatb = lb
-						}
-						latdif = maxlata - minlata
-						latdif = maxlatb - minlatb
-						avg := maxlatb - latdif/2
-						off := lb - avg
-						fmt.Printf("Latitude maxb %d  minb %d  avg %d off %d\n", maxlatb, minlatb, avg, off)
-					}
-					if len(longitude) > 0 {
-						l := strings.Split(longitude, ".")
-						la, _ := strconv.Atoi(l[0])
-						lb, _ := strconv.Atoi(l[1])
-						if la > maxlona {
-							maxlona = la
-						}
-						if lb > maxlonb {
-							maxlonb = lb
-						}
-						if la < minlona {
-							minlona = la
-						}
-						if lb < minlonb {
-							minlonb = lb
-						}
-						londif = maxlona - minlona
-						londif = maxlonb - minlonb
-						avg := maxlonb - londif/2
-						off := lb - avg
-						fmt.Printf("Logitude maxb %d  minb %d avg %d off %d\n", maxlonb, minlonb, avg, off)
+				if lb > maxlatb {
+					maxlatb = lb
+				}
+				if la < minlata {
+					minlata = la
+				}
+				if lb < minlatb {
+					minlatb = lb
+				}
+				latdif = maxlata - minlata
+				latdif = maxlatb - minlatb
+				avg := maxlatb - latdif/2
+				off := lb - avg
+				fmt.Printf("Latitude maxb %d  minb %d  avg %d off %d\n", maxlatb, minlatb, avg, off)
+			}
+			if len(longitude) > 0 {
+				l := strings.Split(longitude, ".")
+				la, _ := strconv.Atoi(l[0])
+				lb, _ := strconv.Atoi(l[1])
+				if la > maxlona {
+					maxlona = la
+				}
+				if lb > maxlonb {
+					maxlonb = lb
+				}
+				if la < minlona {
+					minlona = la
+				}
+				if lb < minlonb {
+					minlonb = lb
+				}
+				londif = maxlona - minlona
+				londif = maxlonb - minlonb
+				avg := maxlonb - londif/2
+				off := lb - avg
+				fmt.Printf("Logitude maxb %d  minb %d avg %d off %d\n", maxlonb, minlonb, avg, off)
 
-					}
+			}
 
-					event := fmt.Sprintf("%s  latitude=%s  %s %d  longitude=%s %s %d knots=%s degrees=%s\n", id, latitude, ns, latdif, longitude, ew, londif, gpsspeed, degree)
-					fmt.Println(event)}
-	
-	
-	
+			event := fmt.Sprintf("%s  latitude=%s  %s %d  longitude=%s %s %d knots=%s degrees=%s\n", id, latitude, ns, latdif, longitude, ew, londif, gpsspeed, degree)
+			fmt.Println(event)
+		}
+
+	}
 }
-
-
 
 func getGPSPosition(sentence string) (string, string, string, string, string, string, string) {
 	data := strings.Split(sentence, ",")
