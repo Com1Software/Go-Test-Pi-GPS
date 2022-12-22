@@ -1,4 +1,4 @@
-# Test-Pi-GPS-Go
+# Test-GPS-Go
 
 
 [GPS Sentences](https://www.rfwireless-world.com/Terminology/GPS-sentences-or-NMEA-sentences.html)
